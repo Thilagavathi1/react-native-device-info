@@ -512,7 +512,13 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     } catch (ClassNotFoundException e) {
       constants.put("instanceId", "N/A: Add com.google.android.gms:play-services-gcm to your project.");
     }
-    constants.put("serialNumber", Build.SERIAL);
+    if (reactContext != null &&
+      (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)) {
+        constants.put("serialNumber",Build.getSerial());
+    } else {
+      constants.put("serialNumber", Build.SERIAL);
+    }
+    //constants.put("serialNumber", Build.SERIAL);
     constants.put("deviceName", deviceName);
     constants.put("systemName", "Android");
     constants.put("systemVersion", Build.VERSION.RELEASE);
