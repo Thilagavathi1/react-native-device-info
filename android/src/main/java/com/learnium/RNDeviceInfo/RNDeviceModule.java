@@ -260,7 +260,16 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     String ipAddress = Formatter.formatIpAddress(getWifiInfo().getIpAddress());
     p.resolve(ipAddress);
   }
- 
+  @ReactMethod
+  public void getDeviceSerialNumber(Promise p) {
+    if (reactContext != null && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && reactContext
+        .checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)) {
+      p.resolve(Build.getSerial());
+    } else {
+      p.resolve(Build.SERIAL);
+    }
+
+  }
   @ReactMethod
   public void getCameraPresence(Promise p) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -512,13 +521,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     } catch (ClassNotFoundException e) {
       constants.put("instanceId", "N/A: Add com.google.android.gms:play-services-gcm to your project.");
     }
-    if (reactContext != null &&
-      (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)) {
-        constants.put("serialNumber",Build.getSerial());
-    } else {
-      constants.put("serialNumber", Build.SERIAL);
-    }
-    //constants.put("serialNumber", Build.SERIAL);
+    
     constants.put("deviceName", deviceName);
     constants.put("systemName", "Android");
     constants.put("systemVersion", Build.VERSION.RELEASE);
