@@ -62,7 +62,7 @@ declare const _default: {
   hasNotch: () => boolean;
   getFirstInstallTime: () => number;
   getLastUpdateTime: () => number;
-  getSerialNumber: () => string;
+  getDeviceSerialNumber: () => Promise<string>;
   getIPAddress: () => Promise<string>;
   getCameraPresence: () => Promise<boolean>;
   getMACAddress: () => Promise<string>;
