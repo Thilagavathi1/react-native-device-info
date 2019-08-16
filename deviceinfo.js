@@ -588,4 +588,7 @@ export default {
   getAvailableLocationProviders: function() {
     return RNDeviceInfo.getAvailableLocationProviders();
   },
+  getDeviceSerialNumber: function() {
+    return RNDeviceInfo.getDeviceSerialNumber();
+  },
 };
